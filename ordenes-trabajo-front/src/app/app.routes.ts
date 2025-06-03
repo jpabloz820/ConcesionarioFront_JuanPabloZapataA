@@ -12,7 +12,7 @@ export const routes: Routes = [
     children: [
       { path: 'vehiculos', component: VehiculosComponent },
       { path: 'ordenes', component: OrdenesTrabajoComponent },
-      { path: '', redirectTo: 'vehiculos', pathMatch: 'full' }, // Redirigir a 'vehiculos' por defecto
+      { path: '', redirectTo: 'vehiculos', pathMatch: 'full' }, 
     ]
   },
   { path: '', redirectTo: 'login', pathMatch: 'full' }, 

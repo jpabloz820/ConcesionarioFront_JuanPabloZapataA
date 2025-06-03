@@ -1,1 +1,83 @@
-<p>ordenes-trabajo-component works!</p>
+<div class="container mt-4">
+
+  <h3 class="mb-4">Gestión de Ordenes de Trabajo</h3>
+
+  <!-- Crear nueva orden -->
+  <div class="card p-3 mb-4 shadow-sm">
+    <h5 class="card-title mb-3">Crear Nueva Orden</h5>
+
+    <div class="mb-2">
+      <label class="form-label">ID del Vehículo</label>
+      <input [(ngModel)]="vehicleIdNuevaOrden" type="number" class="form-control" placeholder="ID del vehículo para la nueva orden" />
+    </div>
+
+    <div class="mb-2">
+      <label class="form-label">Tipo</label>
+      <input [(ngModel)]="nuevaOrden.type" class="form-control" placeholder="Tipo de Orden" />
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Descripción</label>
+      <input [(ngModel)]="nuevaOrden.description" class="form-control" placeholder="Descripción detallada" />
+    </div>
+
+    <button class="btn btn-success w-100" (click)="crearOrden()"
+      [disabled]="!nuevaOrden.type || !nuevaOrden.description || !vehicleIdNuevaOrden">
+      Crear Orden
+    </button>
+  </div>
+
+  <!-- Finalizar orden -->
+  <div class="card p-3 mb-4 shadow-sm">
+    <h5 class="card-title mb-3">Finalizar Orden</h5>
+    <input type="number" [(ngModel)]="orderId" class="form-control mb-2" placeholder="ID de la Orden a Finalizar" />
+    <button class="btn btn-warning w-100" (click)="finalizarOrden()" [disabled]="!orderId">Finalizar Orden</button>
+
+    <div *ngIf="ordenFinalizada" class="alert alert-success mt-3">
+      Orden {{ ordenFinalizada.id }} finalizada correctamente.
+    </div>
+  </div>
+
+  <!-- Mensaje general -->
+  <div *ngIf="mensaje" class="alert alert-danger mt-2 text-center">{{ mensaje }}</div>
+
+  <!-- Buscar por ID de Vehículo -->
+  <div class="mb-4">
+    <label class="form-label fw-bold">Buscar Ordenes por ID de Vehículo</label>
+    <div class="input-group">
+      <input type="number" [(ngModel)]="vehicleId" class="form-control" placeholder="ID Vehículo" />
+      <button class="btn btn-primary" (click)="buscarOrdenes()" [disabled]="!vehicleId">Buscar</button>
+    </div>
+  </div>
+
+  <!-- Filtro por estado -->
+  <div *ngIf="ordenes.length > 0" class="mb-3">
+    <label class="form-label fw-bold">Filtrar por Estado</label>
+    <select [(ngModel)]="estadoFiltro" class="form-select w-50">
+      <option value="">Todos</option>
+      <option value="ACTIVA">Activa</option>
+      <option value="FINALIZADA">Finalizada</option>
+    </select>
+  </div>
+
+  <!-- Lista de Órdenes encontradas -->
+  <div *ngIf="ordenes.length > 0" class="mb-4">
+    <h5 class="fw-semibold mb-3">Órdenes encontradas:</h5>
+    <ul class="list-group">
+      <li *ngFor="let orden of obtenerOrdenesFiltradas()" class="list-group-item">
+        <p class="mb-1">
+          <strong>ID:</strong> {{ orden.id }} |
+          <strong>Estado:</strong> {{ orden.status }} |
+          <strong>Tipo:</strong> {{ orden.type }}
+        </p>
+        <p class="mb-0"><strong>Descripción:</strong> {{ orden.description }}</p>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Si no hay Ordenes encontradas -->
+  <div *ngIf="ordenes.length === 0 && vehicleId && mensaje" class="alert alert-warning">
+    No se encontraron Ordenes para el vehículo con ID {{ vehicleId }}.
+  </div>
+
+</div>
